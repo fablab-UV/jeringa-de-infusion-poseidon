@@ -26,12 +26,13 @@ Esta versión es una **adaptación simplificada** del [sistema Poseidon original
 | Número de bombas | Hasta 3 bombas simultáneas | **1 bomba** |
 | Driver de motor | CNC Shield + drivers DRV8825 | **1 driver A4988** (sin shield) |
 | Microcontrolador | Arduino + CNC Shield | **Arduino UNO** con conexión directa al driver |
+| Microstepping | 1/32 (DRV8825) | **1/16** (máximo del A4988) |
 | Varillas guía | Diseño para **6 mm** | Modelo **redimensionado a 8 mm** |
-| Protección del driver | Integrada en el shield | **Condensador electrolítico** añadido en la alimentación del motor (ver diagrama de conexiones) |
+| Protección del driver | Integrada en el shield | **Condensador electrolítico 100 µF** entre VMOT y GND del A4988 |
 
 * La adaptación a **una sola bomba** responde a una primera etapa de validación; el diseño puede escalar a más canales en futuras iteraciones.
 * El modelo 3D original fue diseñado para varillas de **6 mm**; en esta adaptación se **modificó el CAD para varillas de 8 mm**, ajustando soportes, carro y base.
-* El **condensador** (100 µF electrolítico, ≥ 25 V recomendado) se conecta entre **VMOT y GND** del A4988 para proteger el driver de picos de voltaje generados por el motor.
+* El firmware fue reescrito de forma **no bloqueante** (detención inmediata, pausa/reanudar funcional y reporte de progreso por Serial), manteniendo el mismo protocolo de comandos del Poseidon original.
 
 ---
 
@@ -42,7 +43,7 @@ Esta versión es una **adaptación simplificada** del [sistema Poseidon original
 * **Microcontrolador:** Arduino UNO
 * **Driver de motor:** A4988 (1 unidad)
 * **Motor:** Paso a paso NEMA 17 (200 pasos/rev)
-* **Fuente de poder:** 12 V para alimentación del motor (VMOT)
+* **Fuente de poder:** 12 V / 1.5 A o más para alimentación del motor (VMOT)
 * **Mecánica:** Husillo con tuerca, varillas guía de **8 mm**, rodamientos lineales LM8UU, acoplamiento flexible
 * **Jeringa:** Estándar (BD 1 mL – 60 mL según aplicación)
 * **Piezas impresas en 3D:** Base, carro (sled), soporte de motor y soporte de jeringa (archivos en `HARDWARE/`)
@@ -51,7 +52,7 @@ Esta versión es una **adaptación simplificada** del [sistema Poseidon original
 ## Software
 
 * **Python:** 3.10+ (64-bit)
-* **Arduino IDE:** 1.8+ o 2.x
+* **VS Code + PlatformIO** (recomendado) o **Arduino IDE** 1.8+/2.x
 * **Librería Arduino:** [AccelStepper](https://www.airspayce.com/mikem/arduino/AccelStepper/)
 * **Sistema Operativo:** Windows 10/11 recomendado (compatible con Linux/Mac)
 
@@ -71,19 +72,13 @@ Durante la instalación marcar:
 ☑ Add python.exe to PATH
 ```
 
----
-
-## 2. Crear entorno virtual
+## 2. Crear y activar entorno virtual
 
 Abrir PowerShell en la carpeta del proyecto:
 
 ```bash
 py -3 -m venv .venv
 ```
-
----
-
-## 3. Activar entorno virtual
 
 ### Windows PowerShell
 
@@ -97,53 +92,141 @@ Si el entorno se activó correctamente, la terminal mostrará:
 (.venv)
 ```
 
----
-
-# Instalación de Librerías
+## 3. Instalar librerías
 
 ```bash
 pip install pyserial PyQt5
 ```
 
-**Nota:** En el Arduino IDE instalar la librería **AccelStepper** desde el Gestor de Librerías (*Sketch → Include Library → Manage Libraries*).
+**Nota:** Si se usa Arduino IDE en vez de PlatformIO, instalar la librería **AccelStepper** desde el Gestor de Librerías (*Sketch → Include Library → Manage Libraries*).
 
 ---
 
-# Diagrama de Conexiones (Arduino UNO + A4988)
+# Conexiones Físicas y Puesta a Punto
+
+> **Regla de oro:** todo el cableado se hace con la fuente de 12 V **apagada**.
+> Nunca conectar ni desconectar el motor con la fuente energizada: puede destruir el A4988.
+
+## Diagrama de conexiones
+
+<!-- TODO: Reemplazar con foto/captura del circuito en el simulador -->
+
+![Diagrama de conexiones — simulación](docs/diagrama_conexiones.png)
 
 ```text
 Arduino UNO                     A4988                    Fuente 12 V
 ┌─────────────┐          ┌──────────────────┐          ┌──────────┐
 │             │          │                  │          │          │
 │  D2 (STEP) ─┼─────────►│ STEP             │          │          │
-│  D3 (DIR)  ─┼─────────►│ DIR              │          │          │
-│  D4 (EN)   ─┼─────────►│ ENABLE           │          │          │
-│             │          │                  │          │          │
-│  5V ────────┼─────────►│ VDD              │          │          │
-│  GND ───────┼───┬─────►│ GND (lógica)     │          │          │
+│  D5 (DIR)  ─┼─────────►│ DIR              │          │          │
+│  GND ───────┼───┬─────►│ ENABLE           │          │          │
+│             │   │      │                  │          │          │
+│  5V ────────┼───┼─────►│ VDD              │          │          │
+│  5V ────────┼───┼─────►│ MS1, MS2, MS3    │ (1/16 microstepping) │
+│  GND ───────┼───┼─────►│ GND (lógica)     │          │          │
 │             │   │      │                  │          │          │
 │             │   │      │  VMOT ◄──────────┼──────────┤ +12V     │
 │             │   │      │  GND  ◄────┬─────┼──────────┤ GND      │
 │             │   │      │           │     │          │          │
 │             │   │      │     [Condensador 100 µF]   │          │
-│             │   │      │      VMOT (+) ── GND (−)   │          │
+│             │   │      │   pata (+) a VMOT          │          │
+│             │   │      │   pata con franja (−) a GND│          │
 │             │   │      │                            │          │
 │             │   │      │  1A, 1B, 2A, 2B ──► Motor NEMA 17      │
 └─────────────┘   │      └──────────────────┘          └──────────┘
                   │
      GND común entre Arduino y fuente de 12 V
 
-Nota: Conectar los pines RESET y SLEEP del A4988 entre sí (puente)
-para habilitar el driver.
+Nota: puentear los pines RESET y SLEEP del A4988 entre sí;
+sin ese puente el driver no despierta.
 ```
 
-### Consideraciones importantes
+## Tabla de conexiones
 
-* **El condensador de 100 µF es obligatorio** entre VMOT y GND (lo más cerca posible del driver): protege el A4988 de los picos de voltaje (*spikes*) del motor. Respetar la polaridad.
-* **Nunca conectar o desconectar el motor con el driver energizado:** puede destruir el A4988.
-* **Ajustar la corriente del driver** mediante el potenciómetro del A4988 antes de operar (limitar según la especificación del motor).
-* Unir **todos los GND** (Arduino, driver y fuente de 12 V) en un punto común.
-* Para suavizar el movimiento se puede configurar microstepping con los pines MS1, MS2, MS3 del A4988.
+### Lado lógica (A4988 → Arduino Uno)
+
+| Pin A4988 | Va a | Nota |
+|---|---|---|
+| STEP | Pin D2 | Pulsos de paso |
+| DIR | Pin D5 | Dirección de giro |
+| ENABLE | GND del Arduino | Driver siempre habilitado |
+| MS1, MS2, MS3 | 5V del Arduino | Los tres a 5V = microstepping 1/16 |
+| RESET ⇄ SLEEP | Puente entre ellos | Sin este puente el driver no despierta |
+| VDD | 5V del Arduino | Alimentación de lógica |
+| GND (lógica) | GND del Arduino | |
+
+### Lado potencia (A4988 → fuente y motor)
+
+| Pin A4988 | Va a | Nota |
+|---|---|---|
+| VMOT | +12 V de la fuente | Ver requisitos de fuente abajo |
+| GND (potencia) | − de la fuente **y** GND del Arduino | Tierra común obligatoria |
+| 1A, 1B | Bobina 1 del motor | Orden libre dentro del par |
+| 2A, 2B | Bobina 2 del motor | |
+
+### Condensador (obligatorio)
+
+| Pata | Va a |
+|---|---|
+| Pata larga (+) | VMOT (mismo punto donde entra el +12 V) |
+| Pata corta (−, lado de la franja) | GND (mismo punto donde entra el − de la fuente) |
+
+* Valor: **100 µF** electrolítico, 25 V o más, lo más pegado posible al driver. Protege el A4988 de los picos de voltaje del motor.
+* **Ojo con la polaridad:** al revés se hincha y puede explotar.
+
+### Identificar las bobinas del motor (4 cables)
+
+* **Con multímetro (continuidad o Ω):** dos cables que pitan entre sí (~1–5 Ω) son una bobina → van a 1A y 1B. Los otros dos → 2A y 2B.
+* **Sin multímetro:** unir dos cables entre sí y girar el eje con los dedos; si se pone duro, son la misma bobina.
+* Si el motor gira al revés de lo esperado: intercambiar los dos cables de **una sola** bobina, o marcar "Invertir dirección" en la GUI.
+
+## Requisitos de la fuente
+
+| Parámetro | Valor |
+|---|---|
+| Voltaje | **12 V DC** (rango aceptable: 8–12 V) |
+| Corriente | **1.5 A o más** |
+| Tipo | Fuente de escritorio regulable o adaptador 12 V regulado |
+| Polaridad | Verificar + y − antes de conectar a VMOT/GND |
+
+* El **Arduino se alimenta por USB**; la fuente de 12 V es **solo para el motor** (VMOT).
+* **No** alimentar el motor desde el pin 5V del Arduino.
+* Tierra común obligatoria: GND del Arduino unido al − de la fuente.
+
+## Ajuste del límite de corriente (Vref)
+
+El potenciómetro del A4988 limita la corriente del motor. De fábrica viene alto
+(~1.2 V ≈ 1.4 A) y **puede quemar el driver si no se ajusta antes de usar**.
+
+| Vref | Corriente aprox. | Uso |
+|---|---|---|
+| 0.4 V | ~0.5 A | Punto de partida seguro, driver tibio |
+| 0.6 V | ~0.75 A | Si falta torque |
+| 0.8 V | ~1.0 A | Máximo recomendado **sin disipador** |
+
+### Procedimiento seguro (fuente de 12 V apagada)
+
+1. Fuente de 12 V **apagada**; solo el USB del Arduino conectado (el Vref sale de la lógica 5V).
+2. Multímetro en DC 20 V: punta **roja** al tornillo metálico del potenciómetro, punta **negra** a **GND**.
+3. Girar el tornillo en **micro-giros** (es muy sensible) hasta leer **0.4 V**.
+4. Apagar todo, encender la fuente de 12 V y recién ahí probar movimiento.
+5. Si el motor pierde pasos o no tiene fuerza, subir de a 0.1 V y re-probar.
+
+### Señales de alerta
+
+| Síntoma | Causa probable |
+|---|---|
+| Driver muy caliente / olor a quemado | Vref demasiado alto → apagar y bajar el tornillo |
+| Amperaje de la fuente oscila (sube y baja) | Shutdown térmico del driver → mismo arreglo |
+| Motor zumba o se traba sin girar | Bobinas cruzadas (revisar 1A/1B vs 2A/2B) |
+| Eje del motor suelto con todo energizado | Falta puente RESET-SLEEP o ENABLE sin GND |
+| Motor no hace nada, eje duro | No llegan pulsos STEP (revisar pin D2) o sin comunicación serial |
+
+## Calibración
+
+1. **Desplazamiento:** pedir 10 mm en la GUI (unidades mm/s), medir lo que avanzó el carro con calibre y ajustar el campo **"mm por vuelta"** hasta que coincidan (si avanzó más de 10 mm → subir el valor; si avanzó menos → bajarlo).
+2. **Volumen:** dispensar 1 mL de agua a un recipiente graduado, comparar, y hacer el ajuste fino multiplicando el mm/vuelta por (volumen real / volumen pedido).
+3. Guardar todo con **"Guardar configuración"** en la GUI (JSON).
 
 ---
 
@@ -151,25 +234,25 @@ para habilitar el driver.
 
 ## Paso 1 — Cargar el firmware en el Arduino
 
-Abrir en el Arduino IDE:
+**Con PlatformIO (recomendado):** abrir la carpeta `firmware/` en VS Code, conectar el Arduino UNO y presionar *Upload*. La librería AccelStepper se instala automáticamente.
 
-```text
-firmware/bomba_jeringa.ino
-```
-
-y cargarlo en el Arduino UNO.
+**Con Arduino IDE:** renombrar `firmware/src/main.cpp` a `bomba_jeringa.ino` (eliminando la línea `#include <Arduino.h>`), instalar AccelStepper desde el Gestor de Librerías y cargar el sketch.
 
 ## Paso 2 — Identificar el puerto COM
 
-Verificar el puerto del Arduino (ej: `COM3` en Windows).
+Verificar el puerto del Arduino (ej: `COM3` en Windows) desde el Administrador de Dispositivos o desde la propia interfaz de control (botón *Actualizar*).
 
 ## Paso 3 — Ejecutar el control desde Python
 
 ```bash
-python control_bomba.py
+python software/syringe_pump_gui.py
 ```
 
-*(🚧 Interfaz en desarrollo — por ahora el control se realiza por comandos Serial)*
+## Paso 4 — Operar la bomba
+
+1. Seleccionar el puerto COM y presionar **Conectar**.
+2. Elegir jeringa, flujo y unidades; presionar **Enviar configuración al Arduino** (el botón se pone amarillo cuando hay cambios pendientes).
+3. Definir cantidad y dirección, y presionar **Iniciar**. La barra de progreso se actualiza en tiempo real.
 
 ---
 
@@ -182,11 +265,13 @@ jeringa-de-infusion-poseidon/
 │   ├── STL/
 │   └── CAD/                   # Archivos editables (Fusion 360)
 ├── firmware/
-│   └── bomba_jeringa.ino      # Control del A4988 con AccelStepper
+│   ├── platformio.ini         # Proyecto PlatformIO (Arduino UNO)
+│   └── src/main.cpp           # Control del A4988 con AccelStepper (no bloqueante)
 ├── software/
-│   └── control_bomba.py       # Interfaz de control por Serial
+│   └── syringe_pump_gui.py    # Interfaz gráfica de control (PyQt5)
 ├── docs/
-│   └── BOM.md                 # Lista de materiales y costos
+│   ├── BOM.md                 # Lista de materiales y costos
+│   └── diagrama_conexiones.png
 └── README.md
 ```
 
@@ -215,8 +300,8 @@ PC (Python + Serial USB) → Arduino UNO → Driver A4988 → Motor NEMA 17
 
 # Tecnologías Utilizadas
 
-* Python + PySerial
-* Arduino UNO + AccelStepper
+* Python + PySerial + PyQt5
+* Arduino UNO + AccelStepper + PlatformIO
 * Driver A4988
 * Motor paso a paso NEMA 17
 * Impresión 3D FDM
@@ -255,8 +340,6 @@ PC (Python + Serial USB) → Arduino UNO → Driver A4988 → Motor NEMA 17
 
 # Créditos
 
-Adaptación desarrollada por y **Maria-Ignacia Rojas**,
-estudiantes de pregrado de Ingeniería Civil Biomédica.
+Adaptación desarrollada por **María-Ignacia Rojas**,
+estudiante de pregrado de Ingeniería Civil Biomédica.
 
-Proyecto desarrollado para el **Fablab de la Universidad de Valparaíso**
-*Basado en el sistema Poseidon del Pachter Lab (https://github.com/pachterlab/poseidon)*
