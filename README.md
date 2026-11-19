@@ -1,7 +1,7 @@
 # Jeringa de Infusión Poseidon — FabLab UV
 ### Adaptación de Hardware Abierto | Fablab UV 🚧 *En desarrollo*
 
-Este repositorio contiene el material técnico para la construcción de una **bomba de jeringa (syringe pump) de código abierto**, basada en el sistema **Poseidon** desarrollado por el *Pachter Lab* (Caltech). El proyecto busca entregar una alternativa de bajo costo a las bombas de infusión comerciales, fabricada con piezas impresas en 3D y componentes electrónicos de fácil adquisición.
+Este repositorio contiene el material técnico para la construcción de una **bomba de jeringa (syringe pump) de código abierto**, basada en el sistema **Poseidon** desarrollado por el *Pachter Lab* ([Caltech](https://github.com/pachterlab/poseidon)). El proyecto busca entregar una alternativa de bajo costo a las bombas de infusión comerciales, fabricada con piezas impresas en 3D y componentes electrónicos de fácil adquisición.
 
 > **Nota:** Este proyecto es una **adaptación del diseño original Poseidon**. Las diferencias principales respecto a la versión del Pachter Lab se detallan en la sección [*Diferencias respecto al diseño original*](#-diferencias-respecto-al-diseño-original).
 
