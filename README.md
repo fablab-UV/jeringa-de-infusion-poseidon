@@ -19,8 +19,10 @@ Desarrollar una bomba de jeringa funcional y de bajo costo capaz de:
 
 ## Vista General del Prototipo
 
-![Montaje general de la bomba de jeringa en el FabLab UV](bomba_general.jpg)
-*Vista general de la bomba armada con varillas guía de 8 mm, motor NEMA 17 y jeringa instalada.*
+| Vista lateral | Vista superior |
+| :---: | :---: |
+| ![Vista lateral de la bomba de jeringa en el FabLab UV](bomba_lateral.jpg) | ![Vista superior de la bomba de jeringa en el FabLab UV](bomba_superior.jpg) |
+| *Alineación entre el motor NEMA 17, husillo, carro sobre varillas de 8 mm y jeringa.* | *Disposición de las varillas guía de 8 mm, base impresa en 3D y soporte de jeringa.* |
 
 ---
 
@@ -62,6 +64,11 @@ Esta versión es una **adaptación simplificada** del [sistema Poseidon original
 * **VS Code + PlatformIO** (recomendado) o **Arduino IDE** 1.8+/2.x
 * **Librería Arduino:** [AccelStepper](https://www.airspayce.com/mikem/arduino/AccelStepper/)
 * **Sistema Operativo:** Windows 10/11 recomendado (compatible con Linux/Mac)
+
+### Interfaz de Control (`syringe_pump_gui.py`)
+
+![Captura de la interfaz gráfica de control en PyQt5](control.png)
+*Ventana principal de `syringe_pump_gui.py` para seleccionar el puerto COM, configurar jeringa, flujo y dirección, y monitorear el progreso.*
 
 ---
 
@@ -116,7 +123,8 @@ pip install pyserial PyQt5
 
 ## Diagrama de conexiones
 
-![Diagrama de conexiones](diagrama.png)
+![Diagrama de conexiones simulado](diagrama.png)
+![Diagrama de conexiones real](diagrama_2.png)
 
 ## Tabla de conexiones
 
@@ -317,6 +325,4 @@ PC (Python + Serial USB) → Arduino UNO → Driver A4988 → Motor NEMA 17
 
 # Créditos
 
-Adaptación desarrollada por **Maria-Ignacia Rojas**,
-estudiante de pregrado de Ingeniería Civil Biomédica.
-
+Adaptación desarrollada por **Victor Contreras**, Coordinador FabLab UV y **Maria-Ignacia Rojas**, estudiante de pregrado de Ingeniería Civil Biomédica.
