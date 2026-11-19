@@ -109,7 +109,7 @@ pip install pyserial PyQt5
 
 ## Diagrama de conexiones
 
-![Diagrama de conexiones — simulación]([docs/diagrama_conexiones.png](https://github.com/fablab-UV/jeringa-de-infusion-poseidon/blob/main/diagrama.png))
+![Diagrama de conexiones](docs/diagrama_conexiones.png)
 
 ## Tabla de conexiones
 
