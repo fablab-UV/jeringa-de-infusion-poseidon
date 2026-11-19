@@ -104,8 +104,8 @@ pip install pyserial PyQt5
 
 # Conexiones Físicas y Puesta a Punto
 
-> **Regla de oro:** todo el cableado se hace con la fuente de 12 V **apagada**.
-> Nunca conectar ni desconectar el motor con la fuente energizada: puede destruir el A4988.
+> **IMPORTANTE: todo el cableado se hace con la fuente de 12 V apagada.
+> Nunca conectar ni desconectar el motor con la fuente energizada: puede destruir el A4988.** 
 
 ## Diagrama de conexiones
 
