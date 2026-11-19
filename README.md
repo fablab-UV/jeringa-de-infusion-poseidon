@@ -255,8 +255,8 @@ PC (Python + Serial USB) → Arduino UNO → Driver A4988 → Motor NEMA 17
 
 # Créditos
 
-Adaptación desarrollada por **Maximiliano Gaete** y **Maria-Ignacia Rojas**,
+Adaptación desarrollada por y **Maria-Ignacia Rojas**,
 estudiantes de pregrado de Ingeniería Civil Biomédica.
 
 Proyecto desarrollado para el **Fablab de la Universidad de Valparaíso**
-*Basado en el sistema Poseidon del Pachter Lab (Caltech)*
+*Basado en el sistema Poseidon del Pachter Lab (https://github.com/pachterlab/poseidon)*
