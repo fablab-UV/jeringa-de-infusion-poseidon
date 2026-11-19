@@ -17,6 +17,13 @@ Desarrollar una bomba de jeringa funcional y de bajo costo capaz de:
 
 ---
 
+## Vista General del Prototipo
+
+![Montaje general de la bomba de jeringa en el FabLab UV](bomba_general.jpg)
+*Vista general de la bomba armada con varillas guía de 8 mm, motor NEMA 17 y jeringa instalada.*
+
+---
+
 # Diferencias respecto al diseño original
 
 Esta versión es una **adaptación simplificada** del [sistema Poseidon original](https://github.com/pachterlab/poseidon), pensada como primera iteración funcional:
