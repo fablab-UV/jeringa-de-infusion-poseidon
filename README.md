@@ -340,6 +340,6 @@ PC (Python + Serial USB) → Arduino UNO → Driver A4988 → Motor NEMA 17
 
 # Créditos
 
-Adaptación desarrollada por **María-Ignacia Rojas**,
+Adaptación desarrollada por **Maria-Ignacia Rojas**,
 estudiante de pregrado de Ingeniería Civil Biomédica.
 
