@@ -109,7 +109,7 @@ pip install pyserial PyQt5
 
 ## Diagrama de conexiones
 
-![Diagrama de conexiones](docs/diagrama_conexiones.png)
+![Diagrama de conexiones](docs/diagrama.png)
 
 ## Tabla de conexiones
 
