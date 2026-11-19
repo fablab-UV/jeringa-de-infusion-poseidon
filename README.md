@@ -109,37 +109,7 @@ pip install pyserial PyQt5
 
 ## Diagrama de conexiones
 
-<!-- TODO: Reemplazar con foto/captura del circuito en el simulador -->
-
-![Diagrama de conexiones — simulación](docs/diagrama_conexiones.png)
-
-```text
-Arduino UNO                     A4988                    Fuente 12 V
-┌─────────────┐          ┌──────────────────┐          ┌──────────┐
-│             │          │                  │          │          │
-│  D2 (STEP) ─┼─────────►│ STEP             │          │          │
-│  D5 (DIR)  ─┼─────────►│ DIR              │          │          │
-│  GND ───────┼───┬─────►│ ENABLE           │          │          │
-│             │   │      │                  │          │          │
-│  5V ────────┼───┼─────►│ VDD              │          │          │
-│  5V ────────┼───┼─────►│ MS1, MS2, MS3    │ (1/16 microstepping) │
-│  GND ───────┼───┼─────►│ GND (lógica)     │          │          │
-│             │   │      │                  │          │          │
-│             │   │      │  VMOT ◄──────────┼──────────┤ +12V     │
-│             │   │      │  GND  ◄────┬─────┼──────────┤ GND      │
-│             │   │      │           │     │          │          │
-│             │   │      │     [Condensador 100 µF]   │          │
-│             │   │      │   pata (+) a VMOT          │          │
-│             │   │      │   pata con franja (−) a GND│          │
-│             │   │      │                            │          │
-│             │   │      │  1A, 1B, 2A, 2B ──► Motor NEMA 17      │
-└─────────────┘   │      └──────────────────┘          └──────────┘
-                  │
-     GND común entre Arduino y fuente de 12 V
-
-Nota: puentear los pines RESET y SLEEP del A4988 entre sí;
-sin ese puente el driver no despierta.
-```
+![Diagrama de conexiones — simulación]([docs/diagrama_conexiones.png](https://github.com/fablab-UV/jeringa-de-infusion-poseidon/blob/main/diagrama.png))
 
 ## Tabla de conexiones
 
