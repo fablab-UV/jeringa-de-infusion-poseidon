@@ -21,7 +21,7 @@ Desarrollar una bomba de jeringa funcional y de bajo costo capaz de:
 
 | Vista lateral | Vista superior |
 | :---: | :---: |
-| ![Vista lateral de la bomba de jeringa en el FabLab UV](bomba_lateral.jpg) | ![Vista superior de la bomba de jeringa en el FabLab UV](bomba_superior.jpg) |
+| ![Vista lateral de la bomba de jeringa en el FabLab UV](lateral.jpeg) | ![Vista superior de la bomba de jeringa en el FabLab UV](superior.jpeg) |
 | *Alineación entre el motor NEMA 17, husillo, carro sobre varillas de 8 mm y jeringa.* | *Disposición de las varillas guía de 8 mm, base impresa en 3D y soporte de jeringa.* |
 
 ---
@@ -124,7 +124,7 @@ pip install pyserial PyQt5
 ## Diagrama de conexiones
 
 ![Diagrama de conexiones simulado](diagrama.png)
-![Diagrama de conexiones real](diagrama_2.png)
+![Diagrama de conexiones real](diagrama_2.jpeg)
 
 ## Tabla de conexiones
 
