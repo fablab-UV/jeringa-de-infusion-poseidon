@@ -34,7 +34,7 @@ Desarrollar una bomba de jeringa funcional y de bajo costo capaz de:
 
 | Vista lateral | Vista superior |
 | :---: | :---: |
-| ![Vista lateral de la bomba de jeringa](lateral.jpeg) | ![Vista superior de la bomba de jeringa](superior.jpeg) |
+| ![Vista lateral de la bomba de jeringa](docs/img/lateral.jpeg) | ![Vista superior de la bomba de jeringa](docs/img/superior.jpeg) |
 | *Motor NEMA 17, husillo T8, carro sobre varillas de 8 mm y jeringa.* | *Varillas guía de 8 mm, base impresa en 3D y soporte de jeringa.* |
 
 ---
@@ -159,8 +159,7 @@ Con un T8 de paso 2 mm bien configurado, 10 mm ordenados deben dar 10 mm medidos
 
 ### Diagrama
 
-![Diagrama de conexiones simulado](diagrama.png)
-![Diagrama de conexiones real](diagrama_2.jpeg)
+![Diagrama de conexiones simulado](docs/img/diagrama.png)
 
 ### Lado lógica (A4988 → Arduino UNO)
 
