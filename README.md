@@ -148,7 +148,7 @@ Con un T8 de paso 2 mm bien configurado, 10 mm ordenados deben dar 10 mm medidos
 
 | Método | Alinear | Mover | Resultado |
 | :---: | :---: | :---: | :---: |
-| ![Método](docs/img/08_wiz_metodo.png) | ![Alinear](docs/img/09_wiz_alinear.png) | ![Mover](docs/img/10_wiz_mover.png) | ![Resultado](docs/img/12_wiz_resultado.png) |
+| ![Método](img/08_wiz_metodo.png) | ![Alinear](img/09_wiz_alinear.png) | ![Mover](img/10_wiz_mover.png) | ![Resultado](img/12_wiz_resultado.png) |
 
 ---
 
