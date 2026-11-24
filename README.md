@@ -43,7 +43,7 @@ Desarrollar una bomba de jeringa funcional y de bajo costo capaz de:
 
 | Dosificar | Jeringas | Ajustes |
 | :---: | :---: | :---: |
-| ![Pestaña Dosificar](img/16_cranberry.png) | ![Pestaña Jeringas](img/14_jeringas.png) | ![Pestaña Ajustes](img/15_ajustes.png) |
+| ![Pestaña Dosificar](docs/img/16_cranberry.png) | ![Pestaña Jeringas](docs/img/14_jeringas.png) | ![Pestaña Ajustes](docs/img/15_ajustes.png) |
 | *Volumen, caudal, Iniciar / Pausar / Detener y mover émbolo.* | *Jeringas guardadas y calibración de nuevas.* | *Tornillo, microstepping, velocidades y calibración.* |
 
 **Funciones principales**
@@ -148,7 +148,7 @@ Con un T8 de paso 2 mm bien configurado, 10 mm ordenados deben dar 10 mm medidos
 
 | Método | Alinear | Mover | Resultado |
 | :---: | :---: | :---: | :---: |
-| ![Método](img/08_wiz_metodo.png) | ![Alinear](img/09_wiz_alinear.png) | ![Mover](img/10_wiz_mover.png) | ![Resultado](img/12_wiz_resultado.png) |
+| ![Método](docs/img/08_wiz_metodo.png) | ![Alinear](docs/img/09_wiz_alinear.png) | ![Mover](docs/img/10_wiz_mover.png) | ![Resultado](docs/img/12_wiz_resultado.png) |
 
 ---
 
