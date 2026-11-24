@@ -313,9 +313,6 @@ Respuestas del Arduino: `<Arduino is ready>`, `<OK>`, `<DISP1\|pasos_restantes>`
 ```text
 jeringa-de-infusion-poseidon/
 │
-├── HARDWARE/                      # Piezas 3D adaptadas a varillas de 8 mm
-│   ├── STL/
-│   └── CAD/                       # Archivos editables (Fusion 360)
 ├── firmware/
 │   ├── platformio.ini             # Proyecto PlatformIO (Arduino UNO)
 │   └── src/main.cpp               # Control del A4988 con AccelStepper (no bloqueante)
@@ -327,7 +324,6 @@ jeringa-de-infusion-poseidon/
 │   ├── Manual_Bomba_de_Jeringa.pdf
 │   ├── make_manual.py             # Genera el manual PDF
 │   ├── img/                       # Capturas de la aplicación
-│   └── BOM.md                     # Lista de materiales y costos
 └── README.md
 ```
 
