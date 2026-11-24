@@ -43,7 +43,7 @@ Desarrollar una bomba de jeringa funcional y de bajo costo capaz de:
 
 | Dosificar | Jeringas | Ajustes |
 | :---: | :---: | :---: |
-| ![Pestaña Dosificar](docs/img/16_cranberry.png) | ![Pestaña Jeringas](docs/img/14_jeringas.png) | ![Pestaña Ajustes](docs/img/15_ajustes.png) |
+| ![Pestaña Dosificar](img/16_cranberry.png) | ![Pestaña Jeringas](img/14_jeringas.png) | ![Pestaña Ajustes](img/15_ajustes.png) |
 | *Volumen, caudal, Iniciar / Pausar / Detener y mover émbolo.* | *Jeringas guardadas y calibración de nuevas.* | *Tornillo, microstepping, velocidades y calibración.* |
 
 **Funciones principales**
