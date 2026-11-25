@@ -34,7 +34,7 @@ Desarrollar una bomba de jeringa funcional y de bajo costo capaz de:
 
 | Vista lateral | Vista superior |
 | :---: | :---: |
-| ![Vista lateral de la bomba de jeringa](docs/img/lateral.jpeg) | ![Vista superior de la bomba de jeringa](docs/img/superior.jpeg) |
+| ![Vista lateral de la bomba de jeringa](docs/img/lateral.jpg) | ![Vista superior de la bomba de jeringa](docs/img/superior.jpg) |
 | *Motor NEMA 17, husillo T8, carro sobre varillas de 8 mm y jeringa.* | *Varillas guía de 8 mm, base impresa en 3D y soporte de jeringa.* |
 
 ---
